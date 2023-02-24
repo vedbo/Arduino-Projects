@@ -7,18 +7,18 @@
 #include <math.h>
 
 /* WiFi credentials */
-#define WIFI_SSID "***REMOVED***"
-#define WIFI_PASSWORD "***REMOVED***"
+#define WIFI_SSID "MTPS-WiFi"
+#define WIFI_PASSWORD "DE1B78931A5A0B5D6642A1EFD7A054413546287D9739233014C1B9AB1958ECDB"
 
 /* API Key */
-#define API_KEY "***REMOVED***"
+#define API_KEY "AIzaSyBwk79rtnCTq7clLoxeH1mf0pZkdHbsIuQ"
 
 /* RTDB URL */
 #define DATABASE_URL "https://healthapp-ec047-default-rtdb.firebaseio.com/"
 
 /* User Email and Password */
-#define USER_EMAIL "***REMOVED***"
-#define USER_PASSWORD "***REMOVED***"
+#define USER_EMAIL "vedmborade@gmail.com"
+#define USER_PASSWORD "666666"
 
 // Define Firebase Data object
 FirebaseData fbdo;

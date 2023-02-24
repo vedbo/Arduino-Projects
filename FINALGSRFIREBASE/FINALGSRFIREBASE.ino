@@ -11,18 +11,18 @@
 #include <addons/RTDBHelper.h>
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "***REMOVED***"
-#define WIFI_PASSWORD "***REMOVED***"
+#define WIFI_SSID "Manny"
+#define WIFI_PASSWORD "cool1234"
 
 /* 2. Define the API Key */
-#define API_KEY "***REMOVED***"
+#define API_KEY "AIzaSyDoWYF5rEHMliG2tAbiE4OM8qvjAssT8Pc"
 
 /* 3. Define the RTDB URL */
 #define DATABASE_URL "https://hackru-cc78a-default-rtdb.firebaseio.com"
 
 /* 4. Define the user Email and password that already registered or added in your project */
-#define USER_EMAIL "***REMOVED***"
-#define USER_PASSWORD "***REMOVED***"
+#define USER_EMAIL "vedmborade@gmail.com"
+#define USER_PASSWORD "666666"
 
 // Define Firebase Data object
 FirebaseData fbdo;

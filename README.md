@@ -22,7 +22,7 @@ A project that involves reading inputs from a matrix keypad, which can be useful
 Galvanic Skin Response (GSR) sensor tests and an implementation involving a web server to host/serve the sensor readings locally over a network.
 
 ### 🛠️ Hackathon Sketches (`HACK1`, `hack`, `hack3`)
-Various rapid-prototyping sketches built during ***REMOVED***s, experimenting with different sensors and actuators.
+Various rapid-prototyping sketches built during hackathons, experimenting with different sensors and actuators.
 
 ### 📚 Libraries (`libraries`)
 Contains the local copies of necessary Arduino libraries required to compile these sketches, including `FirebaseESP32`, `DHTStable`, `LCD03`, `MPU6050`, `WiFiNINA_Generic`, and `EspSoftwareSerial`.
