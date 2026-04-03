@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ROCC Workshop - IoT Weather Station</title>
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="ROCC">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/blood.min.css" id="theme">
+
+    <style>
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none; /* Keeps casing matching exactly what we type */
+            letter-spacing: normal;
+        }
+        .code-snippet {
+            background-color: #282a36;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.6em;
+            text-align: left;
+            color: #f8f8f2;
+        }
+        .highlight-red { color: #ff5555; font-weight: bold; }
+        .highlight-green { color: #50fa7b; font-weight: bold; }
+        .highlight-blue { color: #8be9fd; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section>
+                <h1>Cloud IoT</h1>
+                <h3>Building a Wi-Fi Weather Station</h3>
+                <p>
+                    <small>Presented by <a href="#">Ved Borade</a> | Rutgers Organization of Cloud Computing (ROCC)</small>
+                </p>
+            </section>
+
+            <!-- Slide 2: The Goal -->
+            <section>
+                <h2>Our Mission Today</h2>
+                <p>We are going to bridge the physical world with the Cloud.</p>
+                <ul>
+                    <li class="fragment"><strong>The Edge:</strong> ESP32 Microcontroller</li>
+                    <li class="fragment"><strong>The Sensor:</strong> DHT11 Temperature & Humidity</li>
+                    <li class="fragment"><strong>The Cloud:</strong> Google Firebase Realtime Database</li>
+                </ul>
+                <p class="fragment" style="color:#50fa7b; margin-top:30px;">Goal: Stream live room temperature to a web dashboard natively over Wi-Fi!</p>
+            </section>
+
+            <!-- Slide 3: The Hardware -->
+            <section>
+                <section>
+                    <h2>The Hardware</h2>
+                    <p>What's sitting in front of you.</p>
+                </section>
+                <section>
+                    <h2>1. The ESP32 (The Brain)</h2>
+                    <ul>
+                        <li>Dual-Core 240MHz Processor (Very fast for a microcontroller!)</li>
+                        <li><strong>Built-in Wi-Fi & Bluetooth</strong></li>
+                        <li>3.3V Logic level</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>2. The DHT11 (The Eyes)</h2>
+                    <ul>
+                        <li>Digital humidity and temperature sensor.</li>
+                        <li>Only uses 3 pins!</li>
+                        <li>Extremely beginner-friendly.</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Slide 3.5: The Architecture -->
+            <section>
+                <h2>The Architecture Flow</h2>
+                <p>How the physical data reaches the cloud.</p>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; font-size: 0.6em; margin-top: 40px;">
+                    <div style="background: #44475a; padding: 20px; border-radius: 10px; border: 2px solid #ffb86c;">
+                        <h3>🌡️ DHT11</h3>
+                        <p>Reads Data</p>
+                    </div>
+                    <div style="color: #ffb86c; font-size: 2em;">&rarr;</div>
+                    <div style="background: #44475a; padding: 20px; border-radius: 10px; border: 2px solid #8be9fd;">
+                        <h3>🧠 ESP32</h3>
+                        <p>Processes JSON</p>
+                    </div>
+                    <div style="color: #8be9fd; font-size: 2em; line-height:1;">&rarr;<br><small style="font-size: 0.4em;">Wi-Fi</small></div>
+                    <div style="background: #44475a; padding: 20px; border-radius: 10px; border: 2px solid #bd93f9;">
+                        <h3>📡 Router</h3>
+                        <p>Access Point</p>
+                    </div>
+                    <div style="color: #bd93f9; font-size: 2em; line-height:1;">&rarr;<br><small style="font-size: 0.4em;">Internet</small></div>
+                    <div style="background: #44475a; padding: 20px; border-radius: 10px; border: 2px solid #ff5555;">
+                        <h3>🔥 Firebase</h3>
+                        <p>Cloud NoSQL</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: The Hardware Setup -->
+            <section>
+                <h2>Wiring It Up</h2>
+                <p>Grab your 3 jumper wires. We do this before anything else!</p>
+                <br>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DHT11 Pin</th>
+                            <th></th>
+                            <th>ESP32 Pin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span style="color:#ff5555;">VCC / +</span></td>
+                            <td>&rarr;</td>
+                            <td><strong>3V3</strong> (Power)</td>
+                        </tr>
+                        <tr>
+                            <td><span style="color:#6272a4;">GND / -</span></td>
+                            <td>&rarr;</td>
+                            <td><strong>GND</strong> (Ground)</td>
+                        </tr>
+                        <tr>
+                            <td><span style="color:#f1fa8c;">DATA / OUT</span></td>
+                            <td>&rarr;</td>
+                            <td><strong>GPIO 15</strong> (or D15)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Slide 5: The Cloud Setup -->
+            <section>
+                <section>
+                    <h2>The Cloud: Firebase</h2>
+                    <p>Google's Backend-as-a-Service.</p>
+                </section>
+                <section>
+                    <h2>Creating the Database</h2>
+                    <ol>
+                        <li>Go to <strong>console.firebase.google.com</strong></li>
+                        <li>Create a project: <em>"ROCC Workshop ESP32"</em></li>
+                        <li>Navigate to <strong>Realtime Database</strong></li>
+                        <li>Click <strong>Create Database</strong> and select <em>Start in Test Mode</em>.</li>
+                    </ol>
+                </section>
+                <section>
+                    <h2>Securing the Connection</h2>
+                    <p>For today's workshop, we are bypassing authentication so everyone can connect immediately.</p>
+                    <p>Go to your Database <strong>Rules</strong> tab and ensure it says:</p>
+                    <div class="code-snippet">
+<pre>{
+  "rules": {
+    ".read": <span class="highlight-green">true</span>,
+    ".write": <span class="highlight-green">true</span>
+  }
+}</pre>
+                    </div>
+                </section>
+                <section>
+                    <h2>The Missing Link</h2>
+                    <p>To connect the ESP32, you will need to copy the <strong>Database URL</strong> from the top of the Data tab.</p>
+                    <p style="color:#ff5555; text-align: left; font-size:0.8em; margin-top:20px;"><em>Reminder: Strip off the 'https://' and any trailing '/' when pasting into your code!</em></p>
+                </section>
+            </section>
+
+            <!-- Slide 6: The Software -->
+            <section>
+                <h2>The Software Setup</h2>
+                <p>Preparing the Arduino IDE.</p>
+                <div style="font-size: 0.8em; text-align: left; width: 80%; margin: 0 auto;">
+                    <ol>
+                        <li>Make sure your board is set to: <strong>DOIT ESP32 DEVKIT V1</strong>.</li>
+                        <li>Go to <strong>Sketch &rarr; Include Library &rarr; Manage Libraries</strong>.</li>
+                        <li>Install <strong>"DHT sensor library"</strong> by Adafruit.</li>
+                        <li>Install <strong>"Firebase ESP32 Client"</strong> by Mobizt.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Slide 7: The Code -->
+            <section>
+                <h2>The Magic Block</h2>
+                <p>Open the provided code template and fill in the blanks!</p>
+                <div class="code-snippet">
+<pre>
+#define WIFI_SSID <span class="highlight-green">"RUatHome"</span>
+#define WIFI_PASSWORD <span class="highlight-green">"********"</span>
+
+#define DATABASE_URL <span class="highlight-green">"YOUR_DATABASE_URL_HERE.firebaseio.com"</span>
+
+<span style="color:#6272a4;">// The ESP32 pushes the data structure below to the cloud automatically!</span>
+FirebaseJson json;
+json.set("temperatureF", temperatureFahrenheit);
+json.set("humidity", humidity);
+Firebase.setJSON(fbdo, "/rocc_sensor_node", json);
+</pre>
+                </div>
+            </section>
+
+            <!-- Slide 8: The Demonstration -->
+            <section>
+                <h2>Upload & Verify!</h2>
+                <ul>
+                    <li>Click the Upload button ➡️</li>
+                    <li>Wait for <em>"Connecting..."</em>, then it will begin flashing.</li>
+                    <li>Open your **Serial Monitor** (set baud rate to `115200`).</li>
+                    <li>Open your Firebase Console side-by-side.</li>
+                </ul>
+                <h3 class="fragment highlight-green" style="margin-top:40px;">Watch the data stream live!</h3>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide'
+        });
+    </script>
+</body>
+</html>
